@@ -39,7 +39,7 @@ setup(name='collective.documentviewer',
           'collective.monkeypatcher'
       ],
       extras_require={
-          'test': ['plone.app.testing'],
+          'test': ['plone.app.testing', 'plone.app.contenttypes[test]', 'unittest2'],
       },
       entry_points="""
       # -*- Entry points: -*-

@@ -182,7 +182,8 @@ class PDFFiles(SimpleItem, DirectoryResource):
 #        getObject raise Unauthorized because we are Anonymous in the traverser
         fileobj = brains[0]._unrestrictedGetObject()
         settings = Settings(fileobj)
-        if settings.storage_type == 'Blob':
+        gsettings = GlobalSettings(fileobj)
+        if gsettings.storage_type == 'Blob':
             fi = PDFTraverseBlobFile(fileobj, settings, request)
             fi.__parent__ = self
             return fi.__of__(self)

@@ -67,9 +67,9 @@ def migrate_old_storage(context):
     catalog = getToolByName(context, 'portal_catalog')
     portal = getSite()
     gsettings = GlobalSettings(portal)
-    for brain in catalog(object_provides=IFileContent.__identifier__):
+    for brain in catalog(object_provides=OBJECT_PROVIDES):
         file_item = brain.getObject()
-        if file.getLayout() == 'documentviewer':
+        if file_item.getLayout() == 'documentviewer':
             settings = Settings(file_item)
             if settings.storage_version == 1:
                 if settings.storage_type == 'File':

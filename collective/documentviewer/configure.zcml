@@ -8,6 +8,9 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.documentviewer">
 
+
+  <include package="zope.component" file="meta.zcml" />
+  <include package="zope.component" />
   <five:registerPackage package="." initialize=".initialize" />
   <include file="upgrades.zcml" />
   <include package="Products.CMFCore" file="permissions.zcml"

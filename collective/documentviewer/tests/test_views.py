@@ -6,9 +6,10 @@ from tempfile import mkdtemp
 
 import unittest2 as unittest
 
+from collective.documentviewer.convert import Converter
 from collective.documentviewer.settings import Settings
 from collective.documentviewer.tests import BaseTest
-from collective.documentviewer.views import BlobFileWrapper
+from collective.documentviewer.browser.traverse import BlobFileWrapper
 from os.path import join
 
 
@@ -43,22 +44,6 @@ class PDFResourceTraverseTest(BaseTest):
                 uid[0], uid[1], uid))
         self.assertEquals(fiobj.context.path,
             join(_dir, uid[0], uid[1], uid, 'text', 'dump_1.txt'))
-
-    def test_filesystem_old_storage_works(self):
-        gsettings = GlobalSettings(self.portal)
-        _dir = mkdtemp()
-        gsettings.storage_location = _dir
-        gsettings.storage_type = 'File'
-        fi = self.createFile('test.pdf')
-        settings = Settings(fi)
-        del settings._metadata['storage_version']
-        notify(ObjectInitializedEvent(fi))
-        uid = fi.UID()
-        fi.reindexObject()  # for pc
-        fiobj = self.portal.unrestrictedTraverse(
-            '@@dvpdffiles/%s/small/dump_1.gif' % uid)
-        self.assertEquals(fiobj.context.path,
-            join(_dir, uid, 'small', 'dump_1.gif'))
 
     def test_filesystem_missing_gives_404(self):
         gsettings = GlobalSettings(self.portal)

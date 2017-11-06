@@ -1,8 +1,9 @@
 from collective.documentviewer.testing import \
     DocumentViewer_INTEGRATION_TESTING
-from plone.app.testing import setRoles
+from plone.app.testing import setRoles, login
 import unittest
-from plone.app.testing import TEST_USER_ID
+from plone.namedfile.file import NamedBlobFile
+from plone.app.testing import TEST_USER_ID, TEST_USER_NAME
 from collective.documentviewer.testing import createObject
 from os.path import join
 from os.path import dirname
@@ -29,7 +30,11 @@ class BaseTest(unittest.TestCase):
         from collective.documentviewer import async
         async.asyncInstalled = self.origFunc
 
-    def createFile(self, name="test.pdf", id='test1'):
+    def createFile(self, name=u"test.pdf", id='test1'):
+        setRoles(self.portal, TEST_USER_ID, ('Manager', ))
+        login(self.portal, TEST_USER_NAME)
+        file = NamedBlobFile(data=open(join(_files, name), 'r').read(), filename=unicode(name))
+#                             contentType='application/pdu)
         fi = createObject(self.portal, 'File', id,
-            file=open(join(_files, name)))
+            file=file)
         return fi

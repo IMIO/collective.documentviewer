@@ -403,7 +403,6 @@ class Converter(object):
                                                        settings=self.settings)
             if not os.path.exists(storage_dir):
                 mkdir_p(storage_dir)
-
         return storage_dir
 
     def run_conversion(self):
@@ -594,7 +593,6 @@ class Converter(object):
 
     def __call__(self, async=True):
         settings = self.settings
-
         try:
             pages = self.run_conversion()
             # conversion can take a long time.

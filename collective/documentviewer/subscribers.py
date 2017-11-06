@@ -32,7 +32,6 @@ def handle_file_creation(obj, event):
 
     if not allowedDocumentType(obj, gsettings.auto_layout_file_types):
         return
-
     auto_layout = gsettings.auto_select_layout
     if auto_layout and obj.getLayout() != 'documentviewer':
         obj.setLayout('documentviewer')
@@ -48,7 +47,7 @@ def handle_workflow_change(obj, event):
     site = getPortal(obj)
     gsettings = GlobalSettings(site)
     if not gsettings.storage_obfuscate or \
-            settings.storage_type != 'File':
+            gsettings.storage_type != 'File':
         return
 
     for perm in obj.rolesOfPermission("View"):
@@ -74,7 +73,7 @@ def handle_workflow_change(obj, event):
     # if we made it here, the item might have been switched back
     # to being unpublished. Let's just get the converter object
     # and re-move it
-    converter = Converter(object)
+    converter = Converter(obj)
     converter.handleFileObfuscation()
 
 
